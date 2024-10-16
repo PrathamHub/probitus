@@ -82,6 +82,9 @@ function updateFutureValues() {
     futureValues.futureValueSavings.toFixed(2);
   document.getElementById("FutureValueOfProperty").innerText =
     futureValues.futureValueProperty.toFixed(2);
+
+  // Check outcome and update final result
+  updateOutcome(futureValues);
 }
 
 // Function to calculate future values of savings and property
@@ -95,7 +98,7 @@ function calculateFutureValue(tenure, savings, downPayment, expectedReturn) {
     downPayment * compoundFactor +
     savings * ((compoundFactor - 1) / (expectedReturn / months));
 
-  // Assume a fixed rate of appreciation for property (modify as needed)
+  // Assume a fixed rate of appreciation for property
   appreciationRate =
     parseFloat(document.getElementById("rateOfAppreciation").value || 0) / 100; // Example: 5% annual appreciation
   const futureValueProperty =
@@ -105,6 +108,18 @@ function calculateFutureValue(tenure, savings, downPayment, expectedReturn) {
     futureValueSavings,
     futureValueProperty,
   };
+}
+
+// Function to update outcome based on future values
+function updateOutcome(futureValues) {
+  const { futureValueSavings, futureValueProperty } = futureValues;
+
+  const finalResultElement = document.getElementById("finalResult");
+  if (futureValueSavings > futureValueProperty) {
+    finalResultElement.innerText = "Rent the house";
+  } else {
+    finalResultElement.innerText = "Buy the property";
+  }
 }
 
 // Toggle the feedback modal
@@ -135,6 +150,7 @@ window.addEventListener("click", function (event) {
     modal.style.display = "none"; // Hide modal when clicking outside the popup
   }
 });
+
 // Dark Mode Toggle Functionality
 const darkModeToggle = document.getElementById("darkModeToggle");
 const body = document.body;

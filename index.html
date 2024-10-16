@@ -18,48 +18,69 @@
     <div class="main">
 
         <div class="calculator">
-
             <label for="PropertyValue">Property Value</label>
             <input type="number" id="PropertyValue" placeholder="Enter Property Value">
 
             <label for="DownPayment">Down Payment %</label>
             <input type="number" id="DownPayment" placeholder="Enter Down Payment">
 
-            <label for="EMIRate"> EMI Rate%</label>
+            <label for="EMIRate">EMI Rate%</label>
             <input type="number" id="EMIRate" placeholder="Enter EMI Rate">
 
-
-            <label for="Tenure"> Tenure(In Years)</label>
+            <label for="Tenure">Tenure (In Years)</label>
             <input type="number" id="Tenure" placeholder="Enter Tenure">
 
-
-            <label for="rateOfAppreciation"> Rate Of Appreciation %</label>
+            <label for="rateOfAppreciation">Rate Of Appreciation %</label>
             <input type="number" id="rateOfAppreciation" placeholder="Enter Rate Of Appreciation">
 
             <div class="result">
-                <p>EMI: ₹<span id="emi">0</span></p>
-                <p>Loan Amount: ₹<span id="loanAmount">0</span></p>
-                <p>Down Payment: ₹<span id="downPaymentValue">0</span></p>
-            </div>
-            <div class="calculator">
+                <div class="result-item">
+                    <p>EMI: ₹</p>
+                    <p id="emi">0</p>
+                </div>
 
+                <div class="result-item">
+                    <p>Loan Payment: ₹</p>
+                    <p id="loanAmount">0</p>
+                </div>
+
+                <div class="result-item">
+                    <p>Down Payment: ₹</p>
+                    <p id="downPaymentValue">0</p>
+                </div>
+            </div>
+
+            <div class="calculator">
                 <label for="rent">Monthly Rent</label>
                 <input type="number" id="rent" placeholder="Enter monthly rent">
 
-
-
-                <label for="expectedReturn">Expected Return on Savings % </label>
+                <label for="expectedReturn">Expected Return on Savings %</label>
                 <input type="number" id="expectedReturn" placeholder="Enter Expected Return">
 
                 <div class="result">
-                    <p>Savings: ₹<span id="savings">0</span></p>
-
+                    <div class="result-item">
+                        <p>Savings: ₹</p>
+                        <p id="savings">0</p>
+                    </div>
                 </div>
             </div>
 
             <div class="result">
-                <p>Future Value of savings if you chose rent: ₹<span id="FutureValue">0</span></p>
-                <p>Future Value of property: ₹<span id="FutureValueOfProperty">0</span></p>
+                <div class="result-item">
+                    <p>Future Value of savings if you chose rent: ₹</p>
+                    <p id="FutureValue">0</p>
+                </div>
+                <div class="result-item">
+                    <p>Future Value of property: ₹</p>
+                    <p id="FutureValueOfProperty">0</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="result">
+            <div class="result-item">
+                <p>Outcome</p>
+                <p id="finalResult">0</p>
             </div>
         </div>
         <div id="feedback-section">
@@ -72,18 +93,18 @@
                 <span id="close-feedback">&times;</span>
                 <h2>Rate Your Experience</h2>
                 <div id="emoji-container">
-                    <span class="emoji">😡</span> <!-- Worst -->
+                    <span class="emoji">😡</span>
                     <span class="emoji">😕</span>
                     <span class="emoji">😐</span>
                     <span class="emoji">😊</span>
-                    <span class="emoji">😁</span> <!-- Best -->
+                    <span class="emoji">😁</span>
                 </div>
             </div>
         </div>
-
     </div>
 
     <script src="script.js"></script> <!-- Link to external JavaScript file -->
+
 </body>
 
 </html>

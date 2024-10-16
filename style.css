@@ -1,4 +1,4 @@
-/* General Reset */
+General Reset
 * {
     margin: 0;
     padding: 0;
@@ -48,8 +48,8 @@ body.dark-mode .calculator label {
 }
 
 body.dark-mode .calculator input[type="number"] {
-    background-color: #333; /* Dark background for inputs */
-    color: #ffffff; /* White text for inputs */
+    background-color: #fff; /* Dark background for inputs */
+    color:black; /* White text for inputs */
     border: 1px solid #555; /* Slightly lighter border for inputs */
 }
 
@@ -147,23 +147,52 @@ body {
 
 /* Results section */
 .result {
-    margin-top: 15px;
-    padding: 15px;
-    background-color: #f0f4f8;
-    border-radius: 8px;
-    border-left: 5px solid #0288d1; /* Accent border */
-    transition: background-color 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 20px; /* Adds space above the result section */
+    padding: 20px; /* Adds padding inside the result box */
+    background-color: #ffffff; /* White background for results */
+    border-radius: 12px; /* Rounded corners */
+    box-shadow: 0 4px 15px rgba(76, 175, 80, 0.5); /* Green shadow effect */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transition for interactivity */
+    margin-bottom: 10px;
+}
+.result:hover {
+    transform: translateY(-2px); /* Slightly lift the box on hover */
+    box-shadow: 0 6px 20px rgba(76, 175, 80, 0.7); /* Enhanced shadow on hover */
+}
+.result-item {
+    display: flex; /* Makes the label and value sit on the same line */
+    justify-content: space-between; /* Distributes space between the label and value */
+    width: 100%; /* Ensures the item takes the full width of the container */
+    padding: 10px 0; /* Adds vertical padding for spacing */
+    border-bottom: 1px solid #e0e0e0; /* Light gray bottom border for separation */
 }
 
-.result p {
+.result-item:last-child {
+    border-bottom: none; /* Remove the bottom border from the last item */
+}
+
+.result-label {
+    width: 50%; /* Label takes 50% of the width */
+    text-align: left; /* Aligns text to the left */
+}
+
+.result-value {
+    width: 50%; /* Value takes the other 50% */
+    text-align: right; /* Aligns text to the right */
+}
+
+.result .result-item p {
     font-size: 16px;
     color: #37474f; /* Dark text */
     margin-bottom: 10px;
 }
 
-.result span {
+.result .result-item span {
     font-weight: bold;
-    color: #0288d1; /* Primary accent color */
+    color: #4caf50; /* Green accent color for values */
 }
 
 /* Flexbox for layout */
@@ -198,10 +227,7 @@ h1 {
     background-color: #f1f3f5;
 }
 
-.result:hover {
-    background-color: #e3f2fd; /* Light blue background on hover */
-    border-color: #0277bd;
-}
+
 
 /* Button Styles (if needed in the future) */
 button {
@@ -228,8 +254,8 @@ button:hover {
 }
 
 #feedback-btn {
-    background-color: #0288d1;
-    color: #ffffff;
+    background-color: #0288d1; /* Button color */
+    color: #ffffff; /* Text color */
     padding: 10px 15px;
     border: none;
     border-radius: 8px;
@@ -237,10 +263,10 @@ button:hover {
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
-
 #feedback-btn:hover {
-    background-color: #0277bd;
+    background-color: #0277bd; /* Darker button on hover */
 }
+
 
 /* Modal (Feedback Popup) Styling */
 #feedback-modal {
@@ -258,14 +284,14 @@ button:hover {
 }
 
 #feedback-popup {
-    background-color: #fff;
+    background-color: #1c1c1c; /* Dark background for modal in dark mode */
     padding: 30px;
     border-radius: 12px;
     width: 500px;
     text-align: center;
-    justify-content: center;
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
     position: relative;
+    color: #ffffff; /* White text color */
 }
 
 #close-feedback {
@@ -274,61 +300,51 @@ button:hover {
     right: 10px;
     font-size: 24px;
     cursor: pointer;
-    color: #333;
+    color: #ffffff; /* White color for close button */
     transition: color 0.3s ease;
 }
 
 #close-feedback:hover {
-    color: #ff0000;
+    color: #ff0000; /* Red color on hover */
 }
 
 /* Emoji Container */
 #emoji-container {
     margin-top: 20px;
     display: flex;
-    justify-content: center; /* Centering emojis horizontally */
-    align-items: center;     /* Centering emojis vertically */
-    gap: 8px;               /* Space between emojis */
+    gap: 8px;
 }
+
 .emoji {
     font-size: 32px;
     margin: 0 10px;
     cursor: pointer;
-    transition: transform 0.2s ease;
+    transition: transform 0.2s ease, text-shadow 0.2s ease; /* Include transition for text-shadow */
 }
-
 .emoji:hover {
     transform: scale(1.3); /* Enlarge emoji on hover */
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5); /* White shadow for emojis on hover */
+}
+body.dark-mode #feedback-popup {
+    background-color: #121212; /* Dark background for modal in dark mode */
+}
+
+body.dark-mode #feedback-popup h2, 
+body.dark-mode #feedback-popup p {
+    color: #ffffff; /* Ensure text is white in dark mode */
 }
 .logodiv {
     display: flex;
     justify-content: center; /* Horizontally center the logo */
     align-items: center;     /* Vertically center the logo */
     width: 100%;
-    margin-left: 9%;
+
     margin-bottom: 20px;     /* Add space below the logo */
 }
 
 .logo {
     width: 200px;
     max-width: 100%;         /* Ensure it scales properly on small screens */
+    margin-left: 10%;
 }
 
-body.dark-mode #feedback-popup {
-    color: black; /* Black text color for feedback modal in dark mode */
-}
-
-/* Specific styles for buttons in dark mode modal */
-body.dark-mode #close-feedback {
-    color: #333; /* Dark gray for close button in dark mode */
-}
-
-/* Change background for the modal in dark mode */
-body.dark-mode #feedback-popup {
-    background-color: rgba(255, 255, 255, 0.95); /* Slightly transparent white background */
-}
-
-/* Additional hover effect for close button in dark mode */
-body.dark-mode #close-feedback:hover {
-    color: #ff0000; /* Red on hover for close button */
-}
