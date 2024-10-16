@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>House Rent & Loan Calculator</title>
+    <link rel="stylesheet" href="style.css"> <!-- Link to external CSS file -->
+</head>
+
+<body>
+    <div class="navbar">
+        <div class="logodiv">
+            <img src="/logo.webp" class="logo" alt="Logo">
+        </div>
+        <button id="darkModeToggle">Dark Mode</button>
+    </div>
+    <div class="main">
+
+        <div class="calculator">
+
+            <label for="PropertyValue">Property Value</label>
+            <input type="number" id="PropertyValue" placeholder="Enter Property Value">
+
+            <label for="DownPayment">Down Payment %</label>
+            <input type="number" id="DownPayment" placeholder="Enter Down Payment">
+
+            <label for="EMIRate"> EMI Rate%</label>
+            <input type="number" id="EMIRate" placeholder="Enter EMI Rate">
+
+
+            <label for="Tenure"> Tenure(In Years)</label>
+            <input type="number" id="Tenure" placeholder="Enter Tenure">
+
+
+            <label for="rateOfAppreciation"> Rate Of Appreciation %</label>
+            <input type="number" id="rateOfAppreciation" placeholder="Enter Rate Of Appreciation">
+
+            <div class="result">
+                <p>EMI: ₹<span id="emi">0</span></p>
+                <p>Loan Amount: ₹<span id="loanAmount">0</span></p>
+                <p>Down Payment: ₹<span id="downPaymentValue">0</span></p>
+            </div>
+            <div class="calculator">
+
+                <label for="rent">Monthly Rent</label>
+                <input type="number" id="rent" placeholder="Enter monthly rent">
+
+
+
+                <label for="expectedReturn">Expected Return on Savings % </label>
+                <input type="number" id="expectedReturn" placeholder="Enter Expected Return">
+
+                <div class="result">
+                    <p>Savings: ₹<span id="savings">0</span></p>
+
+                </div>
+            </div>
+
+            <div class="result">
+                <p>Future Value of savings if you chose rent: ₹<span id="FutureValue">0</span></p>
+                <p>Future Value of property: ₹<span id="FutureValueOfProperty">0</span></p>
+            </div>
+        </div>
+        <div id="feedback-section">
+            <button id="feedback-btn">Feedback</button>
+        </div>
+
+        <!-- Feedback Popup Modal -->
+        <div id="feedback-modal">
+            <div id="feedback-popup">
+                <span id="close-feedback">&times;</span>
+                <h2>Rate Your Experience</h2>
+                <div id="emoji-container">
+                    <span class="emoji">😡</span> <!-- Worst -->
+                    <span class="emoji">😕</span>
+                    <span class="emoji">😐</span>
+                    <span class="emoji">😊</span>
+                    <span class="emoji">😁</span> <!-- Best -->
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="script.js"></script> <!-- Link to external JavaScript file -->
+</body>
+
+</html>
