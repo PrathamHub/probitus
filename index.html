@@ -18,20 +18,36 @@
     <div class="main">
 
         <div class="calculator">
-            <label for="PropertyValue">Property Value</label>
-            <input type="number" id="PropertyValue" placeholder="Enter Property Value">
 
-            <label for="DownPayment">Down Payment %</label>
-            <input type="number" id="DownPayment" placeholder="Enter Down Payment">
+            <label for="PropertyValue">
+                <span class="info-icon" title="Total value of the property">i</span> Property Value
+            </label>
+            <input oninput="formatNumber(this)" type="text" id="PropertyValue" placeholder="Enter Property Value">
 
-            <label for="EMIRate">EMI Rate%</label>
-            <input type="number" id="EMIRate" placeholder="Enter EMI Rate">
+            <label for="DownPayment">
+                <span class="info-icon" title="Percentage of the property price to be paid upfront">i</span> Down
+                Payment %
+            </label>
+            <input oninput="formatNumber(this)" type="text" id="DownPayment" placeholder="Enter Down Payment">
 
-            <label for="Tenure">Tenure (In Years)</label>
-            <input type="number" id="Tenure" placeholder="Enter Tenure">
+            <label for="EMIRate">
+                <span class="info-icon" title="Monthly interest rate for the loan">i</span> EMI Rate %
+            </label>
+            <input type="text" id="EMIRate" oninput="this.value = this.value.replace(/[^0-9.]/g, '')"
+                placeholder="Enter EMI Rate" />
 
-            <label for="rateOfAppreciation">Rate Of Appreciation %</label>
-            <input type="number" id="rateOfAppreciation" placeholder="Enter Rate Of Appreciation">
+
+            <label for="Tenure">
+                <span class="info-icon" title="Duration of the loan in years">i</span> Tenure (In Years)
+            </label>
+            <input oninput="formatNumber(this)" type="text" id="Tenure" placeholder="Enter Tenure">
+
+            <label for="rateOfAppreciation">
+                <span class="info-icon" title="Annual percentage increase in property value">i</span> Rate Of
+                Appreciation %
+            </label>
+            <input oninput="formatNumber(this)" type="text" id="rateOfAppreciation"
+                placeholder="Enter Rate Of Appreciation">
 
             <div class="result">
                 <div class="result-item">
@@ -51,11 +67,16 @@
             </div>
 
             <div class="calculator">
-                <label for="rent">Monthly Rent</label>
-                <input type="number" id="rent" placeholder="Enter monthly rent">
+                <label for="rent">
+                    <span class="info-icon" title="Monthly rent you will be paying">i</span> Monthly Rent
+                </label>
+                <input oninput="formatNumber(this)" type="text" id="rent" placeholder="Enter monthly rent">
 
-                <label for="expectedReturn">Expected Return on Savings %</label>
-                <input type="number" id="expectedReturn" placeholder="Enter Expected Return">
+                <label for="expectedReturn">
+                    <span class="info-icon" title="Annual percentage return you expect from savings">i</span> Expected
+                    Return on Savings %
+                </label>
+                <input oninput="formatNumber(this)" type="text" id="expectedReturn" placeholder="Enter Expected Return">
 
                 <div class="result">
                     <div class="result-item">
@@ -101,8 +122,35 @@
                 </div>
             </div>
         </div>
+        <div id="contact-modal">
+            <div id="contact-popup">
+                <span id="close-contact">&times;</span>
+                <h2>Contact Us</h2>
+                <label for="email">Email:</label>
+                <input type="email" id="email" placeholder="Enter your email" required>
+                <br>
+                <label for="phone">Phone:</label>
+                <input type="tel" id="phone" placeholder="Enter your phone number" required>
+                <button id="submit-contact">Submit</button>
+            </div>
+        </div>
+
+        <button id="contact-btn">Contact Us</button>
     </div>
 
+    <script>
+        function formatNumber(input) {
+            let value = input.value.replace(/,/g, '');
+
+            // Check if the input is a valid number
+            if (!isNaN(value) && value !== '') {
+                // Format the number with commas
+                input.value = Number(value).toLocaleString('en-US');
+            } else {
+                input.value = '';
+            }
+        }
+    </script>
     <script src="script.js"></script> <!-- Link to external JavaScript file -->
 
 </body>

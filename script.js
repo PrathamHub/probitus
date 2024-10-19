@@ -1,42 +1,44 @@
-// Add event listeners for input fields
-document
-  .getElementById("PropertyValue")
-  .addEventListener("input", updateValues);
-document.getElementById("DownPayment").addEventListener("input", updateValues);
-document.getElementById("EMIRate").addEventListener("input", updateValues);
-document.getElementById("Tenure").addEventListener("input", updateValues);
-document.getElementById("rent").addEventListener("input", updateSavings);
-document
-  .getElementById("expectedReturn")
-  .addEventListener("input", updateFutureValues);
-document
-  .getElementById("rateOfAppreciation") // Add event listener for appreciation rate
-  .addEventListener("input", updateFutureValues);
+// Helper function to format numbers in Indian format
+function formatIndianNumber(number) {
+  if (!number) return "0"; // Handle empty or undefined values
+  return Number(number).toLocaleString("en-IN", {
+    maximumFractionDigits: 2, // Limit to two decimal places
+  });
+}
 
 // Function to update values and recalculate EMI, Loan Amount, and Down Payment
 function updateValues() {
-  propertyValue =
-    parseFloat(document.getElementById("PropertyValue").value) || 0;
+  const propertyValue =
+    parseFloat(
+      document.getElementById("PropertyValue").value.replace(/,/g, "")
+    ) || 0;
   const downPaymentPercent =
-    parseFloat(document.getElementById("DownPayment").value) || 0;
-  const emiRate = parseFloat(document.getElementById("EMIRate").value) || 0;
-  tenure = parseFloat(document.getElementById("Tenure").value) || 0;
+    parseFloat(
+      document.getElementById("DownPayment").value.replace(/,/g, "")
+    ) || 0;
+  const emiRate =
+    parseFloat(document.getElementById("EMIRate").value.replace(/,/g, "")) || 0;
+  const tenure =
+    parseFloat(document.getElementById("Tenure").value.replace(/,/g, "")) || 0;
 
   // Calculate Down Payment
-  downPayment = (downPaymentPercent / 100) * propertyValue;
-  document.getElementById("downPaymentValue").innerText =
-    downPayment.toFixed(2);
+  const downPayment = (downPaymentPercent / 100) * propertyValue;
+  document.getElementById("downPaymentValue").innerText = formatIndianNumber(
+    downPayment.toFixed(2)
+  );
 
   // Calculate Loan Amount
   const loanAmount = propertyValue - downPayment;
-  document.getElementById("loanAmount").innerText = loanAmount.toFixed(2);
+  document.getElementById("loanAmount").innerText = formatIndianNumber(
+    loanAmount.toFixed(2)
+  );
 
   // Calculate EMI
-  emi = calculateEMI(emiRate, tenure, loanAmount);
-  document.getElementById("emi").innerText = emi.toFixed(2);
+  const emi = calculateEMI(emiRate, tenure, loanAmount);
+  document.getElementById("emi").innerText = formatIndianNumber(emi.toFixed(2));
 
   // Update savings based on EMI and rent
-  updateSavings();
+  updateSavings(emi);
 }
 
 // Function to calculate EMI using loan amount, rate, and tenure
@@ -48,26 +50,36 @@ function calculateEMI(loanRate, tenureYears, loanAmount) {
   const emi =
     (loanAmount * monthlyRate * Math.pow(1 + monthlyRate, tenureMonths)) /
     (Math.pow(1 + monthlyRate, tenureMonths) - 1);
-
   return emi || 0;
 }
 
 // Function to update savings based on EMI and monthly rent
-function updateSavings() {
-  const monthlyRent = parseFloat(document.getElementById("rent").value) || 0;
+function updateSavings(emi) {
+  const monthlyRent =
+    parseFloat(document.getElementById("rent").value.replace(/,/g, "")) || 0;
 
   // Calculate savings (difference between EMI and rent), ensuring non-negative value
-  savings = Math.max(emi - monthlyRent, 0);
-  document.getElementById("savings").innerText = savings.toFixed(2);
+  const savings = Math.max(emi - monthlyRent, 0);
+  document.getElementById("savings").innerText = formatIndianNumber(
+    savings.toFixed(2)
+  );
 
   // Recalculate future values based on updated savings
-  updateFutureValues();
+  updateFutureValues(savings);
 }
 
 // Function to update future values of savings and property
-function updateFutureValues() {
-  expectedReturn =
-    parseFloat(document.getElementById("expectedReturn").value) / 100 || 0;
+function updateFutureValues(savings) {
+  const tenure =
+    parseFloat(document.getElementById("Tenure").value.replace(/,/g, "")) || 0;
+  const expectedReturn =
+    parseFloat(
+      document.getElementById("expectedReturn").value.replace(/,/g, "")
+    ) / 100 || 0;
+  const downPayment =
+    parseFloat(
+      document.getElementById("downPaymentValue").innerText.replace(/,/g, "")
+    ) || 0;
 
   // Calculate future values
   const futureValues = calculateFutureValue(
@@ -78,10 +90,11 @@ function updateFutureValues() {
   );
 
   // Update UI with future values
-  document.getElementById("FutureValue").innerText =
-    futureValues.futureValueSavings.toFixed(2);
+  document.getElementById("FutureValue").innerText = formatIndianNumber(
+    futureValues.futureValueSavings.toFixed(2)
+  );
   document.getElementById("FutureValueOfProperty").innerText =
-    futureValues.futureValueProperty.toFixed(2);
+    formatIndianNumber(futureValues.futureValueProperty.toFixed(2));
 
   // Check outcome and update final result
   updateOutcome(futureValues);
@@ -98,22 +111,23 @@ function calculateFutureValue(tenure, savings, downPayment, expectedReturn) {
     downPayment * compoundFactor +
     savings * ((compoundFactor - 1) / (expectedReturn / months));
 
-  // Assume a fixed rate of appreciation for property
-  appreciationRate =
-    parseFloat(document.getElementById("rateOfAppreciation").value || 0) / 100; // Example: 5% annual appreciation
+  // Future value of property
+  const appreciationRate =
+    parseFloat(
+      document.getElementById("rateOfAppreciation").value.replace(/,/g, "")
+    ) / 100 || 0;
+  const propertyValue =
+    parseFloat(
+      document.getElementById("PropertyValue").value.replace(/,/g, "")
+    ) || 0;
   const futureValueProperty =
     propertyValue * Math.pow(1 + appreciationRate, tenure);
 
-  return {
-    futureValueSavings,
-    futureValueProperty,
-  };
+  return { futureValueSavings, futureValueProperty };
 }
 
 // Function to update outcome based on future values
-function updateOutcome(futureValues) {
-  const { futureValueSavings, futureValueProperty } = futureValues;
-
+function updateOutcome({ futureValueSavings, futureValueProperty }) {
   const finalResultElement = document.getElementById("finalResult");
   if (futureValueSavings > futureValueProperty) {
     finalResultElement.innerText = "Rent the house";
@@ -122,57 +136,56 @@ function updateOutcome(futureValues) {
   }
 }
 
-// Toggle the feedback modal
+// Event listeners for input fields
+document
+  .getElementById("PropertyValue")
+  .addEventListener("input", updateValues);
+document.getElementById("DownPayment").addEventListener("input", updateValues);
+document.getElementById("EMIRate").addEventListener("input", updateValues);
+document.getElementById("Tenure").addEventListener("input", updateValues);
+document.getElementById("rent").addEventListener("input", updateValues);
+document
+  .getElementById("expectedReturn")
+  .addEventListener("input", updateValues);
+document
+  .getElementById("rateOfAppreciation")
+  .addEventListener("input", updateValues);
+
+// Dark Mode Toggle Functionality
+const darkModeToggle = document.getElementById("darkModeToggle");
+const body = document.body;
+darkModeToggle.addEventListener("click", () => {
+  body.classList.toggle("dark-mode");
+  darkModeToggle.textContent = body.classList.contains("dark-mode")
+    ? "Light Mode"
+    : "Dark Mode";
+});
+
+// Feedback Modal Functionality
 document.getElementById("feedback-btn").addEventListener("click", function () {
   document.getElementById("feedback-modal").style.display = "flex"; // Show modal
 });
-
-// Close feedback modal
 document
   .getElementById("close-feedback")
   .addEventListener("click", function () {
     document.getElementById("feedback-modal").style.display = "none"; // Hide modal
   });
-
-// Add event listeners to emojis for feedback selection
-var emojis = document.querySelectorAll(".emoji");
-emojis.forEach(function (emoji) {
+document.querySelectorAll(".emoji").forEach(function (emoji) {
   emoji.addEventListener("click", function () {
-    alert("You selected: " + emoji.innerHTML); // Display selected emoji
-    document.getElementById("feedback-modal").style.display = "none"; // Hide modal after selection
+    alert("You selected: " + emoji.innerHTML); // Show selected emoji
+    document.getElementById("feedback-modal").style.display = "none"; // Hide modal
   });
 });
 
-// Close modal if clicked outside the popup
-window.addEventListener("click", function (event) {
-  var modal = document.getElementById("feedback-modal");
-  if (event.target == modal) {
-    modal.style.display = "none"; // Hide modal when clicking outside the popup
+// Contact Modal Functionality
+document.getElementById("contact-btn").onclick = function () {
+  document.getElementById("contact-modal").style.display = "block";
+};
+document.getElementById("close-contact").onclick = function () {
+  document.getElementById("contact-modal").style.display = "none";
+};
+window.onclick = function (event) {
+  if (event.target === document.getElementById("contact-modal")) {
+    document.getElementById("contact-modal").style.display = "none";
   }
-});
-
-// Dark Mode Toggle Functionality
-const darkModeToggle = document.getElementById("darkModeToggle");
-const body = document.body;
-const results = document.querySelectorAll(".result");
-const main = document.querySelector(".main");
-const inputs = document.querySelectorAll(".calculator input");
-
-darkModeToggle.addEventListener("click", () => {
-  // Toggle the dark-mode class on the body
-  body.classList.toggle("dark-mode");
-
-  // Toggle dark-mode for all result sections
-  results.forEach((result) => result.classList.toggle("dark-mode"));
-
-  // Toggle dark-mode for the main container and inputs
-  main.classList.toggle("dark-mode");
-  inputs.forEach((input) => input.classList.toggle("dark-mode"));
-
-  // Change button text based on mode
-  if (body.classList.contains("dark-mode")) {
-    darkModeToggle.textContent = "Light Mode";
-  } else {
-    darkModeToggle.textContent = "Dark Mode";
-  }
-});
+};
